@@ -1,0 +1,131 @@
+﻿@model IEnumerable<CRUD_Dapper.Models.EmpModel>
+
+
+@{
+    ViewBag.Title = "GetAllEmpDetails";
+}
+
+<h2>All Emp Details</h2>
+<hr />
+<div class="container-fluid">
+    <div class="row container-fluid">
+        @*seraching bar*@
+        @using (Html.BeginForm("GetAllEmpDetails", "Emp", FormMethod.Post))
+        {
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.Label("Search", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBox("searchTxt", null, new { @class = "form-control", @placeholder = "Search your text here", @style = "max-width:100%" })
+                    </div>
+                    <div class="container-fluid">
+                        <button class="btn btn-primary glyphicon glyphicon-search" type="submit">  Search</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                @*Inser Record Button*@
+                <button type="button" class="btn btn-success btn-sm">
+                    <a href="@Url.Action("AddEmployee","Emp")" style="color:white;font-weight:bold;">
+                        <i class="glyphicon glyphicon-plus" title="Add" style="color:white;"></i>
+                        Add
+                    </a>
+                </button>
+                @*Print Button*@
+                <button type="button" class="btn btn-primary btn-sm" onclick="window.print()">
+                    <a>
+                        <i class="glyphicon glyphicon-print" title="Print" style="color:white;"></i>
+                        <span class="sr-only">Convert View To PDF</span>
+                    </a>
+                </button>
+                @*Export to Excel Button*@
+                <button type="button" class="btn btn-primary btn-sm">
+                    <a href="@Url.Action("ExportListUsingEPPlus","Emp")">
+                        <i class="glyphicon glyphicon-floppy-saved" title="Export to excel" style="color:white;"></i>
+                        <span class="sr-only">Export to Excel</span>
+                    </a>
+                </button>
+                
+            </p>
+            <table class="table table-bordered table-striped text-center" style="color:black;">
+                <tr>
+                    <th class="text-center">
+                        @Html.ActionLink("ID", "GetAllEmpDetails", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Empid" })
+                    </th>
+                    <th class="text-center">
+                        @Html.ActionLink("Name", "GetAllEmpDetails", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Name" })
+                    </th>
+                    <th class="text-center">
+                        @Html.ActionLink("Address", "GetAllEmpDetails", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Address" })
+                    </th>
+                    <th class="text-center">
+                        @Html.ActionLink("City", "GetAllEmpDetails", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "cityName" })
+                    </th>
+                    <th class="text-center">
+                        @Html.ActionLink("Gender", "GetAllEmpDetails", new { SortOrder = ViewBag.SortOrder == null ? "Asc" : (ViewBag.SortOrder == "Asc" ? "Desc" : "Asc"), SortBy = "Gender" })
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.CSharp)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Java)
+                    </th>
+                    <th class="text-center">
+                        @Html.DisplayNameFor(model => model.Python)
+                    </th>
+                    <th class="text-center">
+                        Action
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Empid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.cityName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Gender)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CSharp)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Java)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Python)
+                        </td>
+                        <td>
+                            @*Edit the details*@
+                            <a href="@Url.Action("EditEmpDetails","Emp", new { id = item.Empid })" style="color:black;">
+                                <i class="glyphicon glyphicon-edit" title="Edit"></i>
+                            </a>
+                            &nbsp;&nbsp;&nbsp;
+                            @*Delete the details*@
+                            <a href="@Url.Action("DeleteEmp","Emp", new { id = item.Empid })" style="color:Red;">
+                                <i class="glyphicon glyphicon-trash" title="Delete" onclick="return confirm('Are sure wants to delete?');" }"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>
+
